@@ -1,0 +1,24 @@
+@model TheGadgetZone.Business.Entities.Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="row g-4">
+    <div class="col-md-6"><img class="img-fluid rounded-4 bg-white p-3" src="@(Model.ImageUrl ?? "/images/product-placeholder.svg")" alt="@Model.Name" /></div>
+    <div class="col-md-6">
+        <p class="text-muted">@Model.Category.Name</p>
+        <h1>@Model.Name</h1>
+        <p>@Model.Description</p>
+        <p class="h3">PKR @Model.Price.ToString("N2")</p>
+        <p>@(Model.StockQuantity > 0 ? $"{Model.StockQuantity} in stock" : "Out of stock")</p>
+        @if (Model.StockQuantity > 0)
+        {
+            <form asp-controller="Cart" asp-action="Add" method="post" class="d-flex gap-2">
+                <input type="hidden" name="productId" value="@Model.Id" />
+                <label class="visually-hidden" for="quantity">Quantity</label>
+                <input id="quantity" class="form-control" type="number" name="quantity" value="1" min="1" max="@Model.StockQuantity" style="max-width: 100px" />
+                <button class="btn btn-primary" type="submit">Add to cart</button>
+            </form>
+        }
+    </div>
+</div>

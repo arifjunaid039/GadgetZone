@@ -1,0 +1,17 @@
+@using TheGadgetZone.Business.Entities
+@{
+    ViewData["Title"] = "Admin dashboard";
+    var categories = (IReadOnlyList<Category>)ViewBag.Categories;
+    var products = (IReadOnlyList<Product>)ViewBag.Products;
+    var orders = (IReadOnlyList<Order>)ViewBag.Orders;
+}
+<h1>Admin dashboard</h1>
+<div class="row g-3 mb-4">
+    <div class="col-md-3"><div class="card card-body"><span>Categories</span><strong class="h2">@categories.Count</strong></div></div>
+    <div class="col-md-3"><div class="card card-body"><span>Products</span><strong class="h2">@products.Count</strong></div></div>
+    <div class="col-md-3"><div class="card card-body"><span>Orders</span><strong class="h2">@orders.Count</strong></div></div>
+    <div class="col-md-3"><div class="card card-body"><span>Pending orders</span><strong class="h2">@orders.Count(order => order.Status == OrderStatus.Pending)</strong></div></div>
+</div>
+<a class="btn btn-primary" asp-area="Admin" asp-controller="Categories" asp-action="Index">Manage categories</a>
+<a class="btn btn-primary" asp-area="Admin" asp-controller="Products" asp-action="Index">Manage products and stock</a>
+<a class="btn btn-primary" asp-area="Admin" asp-controller="Orders" asp-action="Index">Manage orders</a>

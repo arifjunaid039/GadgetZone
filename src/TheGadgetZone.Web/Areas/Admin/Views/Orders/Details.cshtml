@@ -1,0 +1,23 @@
+@model TheGadgetZone.Business.Entities.Order
+@{
+    ViewData["Title"] = $"Order #{Model.Id}";
+}
+<h1>Order #@Model.Id</h1>
+<p>Status: <strong>@Model.Status</strong></p>
+<p>Customer reference: @Model.UserId</p>
+<p>Delivery: @Model.DeliveryAddress - @Model.PhoneNumber</p>
+<div class="table-responsive"><table class="table">
+    <thead><tr><th>Product</th><th>Quantity</th><th>Total</th></tr></thead>
+    <tbody>@foreach (var item in Model.OrderItems) { <tr><td>@item.ProductName</td><td>@item.Quantity</td><td>PKR @item.LineTotal.ToString("N2")</td></tr> }</tbody>
+</table></div>
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+<form asp-action="UpdateStatus" method="post" class="d-flex gap-2">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <select name="status" class="form-select" style="max-width: 220px">
+        @foreach (var status in Enum.GetValues<TheGadgetZone.Business.Entities.OrderStatus>())
+        {
+            <option value="@status" selected="@(status == Model.Status)">@status</option>
+        }
+    </select>
+    <button class="btn btn-primary" type="submit">Update status</button>
+</form>

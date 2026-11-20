@@ -1,0 +1,15 @@
+@using TheGadgetZone.Business.Entities
+@model IReadOnlyList<Order>
+@{
+    ViewData["Title"] = "Manage orders";
+}
+<h1>Manage orders</h1>
+<div class="table-responsive"><table class="table">
+    <thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var order in Model)
+    {
+        <tr><td>#@order.Id</td><td>@order.OrderDate.ToLocalTime().ToString("g")</td><td>@order.Status</td><td>PKR @order.Subtotal.ToString("N2")</td><td><a asp-action="Details" asp-route-id="@order.Id">Details</a></td></tr>
+    }
+    </tbody>
+</table></div>

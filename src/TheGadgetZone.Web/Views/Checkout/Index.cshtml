@@ -1,0 +1,25 @@
+@model TheGadgetZone.Web.ViewModels.CheckoutViewModel
+@using TheGadgetZone.Business.Entities
+@{
+    ViewData["Title"] = "Checkout";
+    var cart = (IReadOnlyList<CartItem>)ViewBag.Cart;
+    var total = cart.Sum(item => item.Product.Price * item.Quantity);
+}
+<h1>Cash on Delivery checkout</h1>
+<p>Payment method: Cash on Delivery (COD)</p>
+<div class="card card-body mb-4">
+    <h2 class="h5">Order summary</h2>
+    @foreach (var item in cart)
+    {
+        <div class="d-flex justify-content-between"><span>@item.Product.Name × @item.Quantity</span><span>PKR @((item.Product.Price * item.Quantity).ToString("N2"))</span></div>
+    }
+    <hr />
+    <strong class="text-end">Subtotal: PKR @total.ToString("N2")</strong>
+</div>
+<form asp-action="Index" method="post" class="form-card">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3"><label asp-for="DeliveryAddress" class="form-label"></label><textarea asp-for="DeliveryAddress" class="form-control" rows="3"></textarea><span asp-validation-for="DeliveryAddress" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="PhoneNumber" class="form-label"></label><input asp-for="PhoneNumber" class="form-control" /><span asp-validation-for="PhoneNumber" class="text-danger"></span></div>
+    <button class="btn btn-primary" type="submit">Place order</button>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

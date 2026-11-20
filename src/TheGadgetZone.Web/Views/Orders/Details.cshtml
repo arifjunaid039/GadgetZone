@@ -1,0 +1,17 @@
+@model TheGadgetZone.Business.Entities.Order
+@{
+    ViewData["Title"] = $"Order #{Model.Id}";
+}
+<h1>Order #@Model.Id</h1>
+<p>Status: <strong>@Model.Status</strong> | Payment: Cash on Delivery</p>
+<p>Delivery address: @Model.DeliveryAddress</p>
+<div class="table-responsive"><table class="table">
+    <thead><tr><th>Product</th><th>Unit price</th><th>Quantity</th><th>Total</th></tr></thead>
+    <tbody>
+    @foreach (var item in Model.OrderItems)
+    {
+        <tr><td>@item.ProductName</td><td>PKR @item.UnitPrice.ToString("N2")</td><td>@item.Quantity</td><td>PKR @item.LineTotal.ToString("N2")</td></tr>
+    }
+    </tbody>
+</table></div>
+<p class="h4 text-end">Total: PKR @Model.Subtotal.ToString("N2")</p>

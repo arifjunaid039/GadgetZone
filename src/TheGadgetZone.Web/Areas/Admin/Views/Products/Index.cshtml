@@ -1,0 +1,16 @@
+@using TheGadgetZone.Business.Entities
+@model IReadOnlyList<Product>
+@{
+    ViewData["Title"] = "Manage products";
+}
+<h1>Manage products and stock</h1>
+<p><a class="btn btn-primary" asp-action="Create">Add product</a></p>
+<div class="table-responsive"><table class="table">
+    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Active</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var product in Model)
+    {
+        <tr><td>@product.Name</td><td>@product.Category.Name</td><td>PKR @product.Price.ToString("N2")</td><td>@product.StockQuantity</td><td>@product.IsActive</td><td><a asp-action="Edit" asp-route-id="@product.Id">Edit</a></td></tr>
+    }
+    </tbody>
+</table></div>

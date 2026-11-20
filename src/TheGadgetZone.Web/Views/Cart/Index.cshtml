@@ -1,0 +1,39 @@
+@using TheGadgetZone.Business.Entities
+@model IReadOnlyList<CartItem>
+@{
+    ViewData["Title"] = "Your cart";
+    var total = Model.Sum(item => item.Product.Price * item.Quantity);
+}
+<h1>Your cart</h1>
+@if (TempData["Error"] is string error) { <div class="alert alert-danger">@error</div> }
+@if (Model.Count == 0)
+{
+    <p>Your cart is empty. <a asp-controller="Products" asp-action="Index">Browse products</a></p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table align-middle">
+            <thead><tr><th>Product</th><th>Price</th><th>Quantity</th><th>Line total</th><th></th></tr></thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>PKR @item.Product.Price.ToString("N2")</td>
+                    <td>
+                        <form asp-action="Update" method="post" class="d-flex gap-2">
+                            <input type="hidden" name="Id" value="@item.Id" />
+                            <input class="form-control" type="number" name="Quantity" value="@item.Quantity" min="1" max="@item.Product.StockQuantity" style="max-width: 90px" />
+                            <button class="btn btn-outline-secondary" type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>PKR @((item.Product.Price * item.Quantity).ToString("N2"))</td>
+                    <td><form asp-action="Remove" method="post"><input type="hidden" name="id" value="@item.Id" /><button class="btn btn-link text-danger" type="submit">Remove</button></form></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="text-end"><h2 class="h4">Subtotal: PKR @total.ToString("N2")</h2><a class="btn btn-primary" asp-controller="Checkout" asp-action="Index">Continue to checkout</a></div>
+}

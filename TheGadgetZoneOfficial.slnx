@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TheGadgetZone.Business/TheGadgetZone.Business.csproj" />
+    <Project Path="src/TheGadgetZone.DataAccess/TheGadgetZone.DataAccess.csproj" />
+    <Project Path="src/TheGadgetZone.Web/TheGadgetZone.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TheGadgetZone.Business.Tests/TheGadgetZone.Business.Tests.csproj" />
+  </Folder>
+</Solution>
